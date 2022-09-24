@@ -8,6 +8,8 @@ export const REGISTER_ACTIONS = {
   UPDATE_GENDER: 'update_gender',
   UPDATE_PASSWORD: 'update_password',
   UPDATE_CONFIRM_PASSWORD: 'update_confirm_password',
+  UPDATE_PASSWORD_VISIBILITY: 'update_password_visibility',
+  UPDATE_CONFIRM_PASSWORD_VISIBILITY: 'update_confirm_password_visibility',
   SET_ERROR: 'set_error',
 };
 
@@ -75,6 +77,16 @@ export const registerReducer = (register, action) => {
           ...register.error,
           confirmPassword: null,
         },
+      };
+    case REGISTER_ACTIONS.UPDATE_PASSWORD_VISIBILITY:
+      return {
+        ...register,
+        passwordVisibility: action.payload.passwordVisibility,
+      };
+    case REGISTER_ACTIONS.UPDATE_CONFIRM_PASSWORD_VISIBILITY:
+      return {
+        ...register,
+        confirmPasswordVisibility: action.payload.confirmPasswordVisibility,
       };
     case REGISTER_ACTIONS.SET_ERROR:
       return {

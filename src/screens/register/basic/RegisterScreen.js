@@ -1,4 +1,4 @@
-import {useReducer} from 'react';
+import {useCallback, useReducer} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -8,6 +8,7 @@ import {
   TouchableNativeFeedback,
   View,
 } from 'react-native';
+
 import {RadioGroup} from 'react-native-radio-buttons-group';
 import EditIcon from '../../../../icons/EditIcon';
 import LockIcon from '../../../../icons/LockIcon';
@@ -15,6 +16,8 @@ import MailIcon from '../../../../icons/MailIcon';
 import PhoneIcon from '../../../../icons/PhoneIcon';
 import ProfileIcon from '../../../../icons/ProfileIcon';
 import UserIcon from '../../../../icons/UserIcon';
+import VisibilityIcon from '../../../../icons/VisibilityIcon';
+import VisibilityOffIcon from '../../../../icons/VisibilityOffIcon';
 import emailValidator from '../../../validator/emailValidator';
 import genderValidator from '../../../validator/genderValidator';
 import nameValidator from '../../../validator/nameValidator';
@@ -86,9 +89,9 @@ const RegisterScreen = ({navigation}) => {
           error,
         },
       });
-      navigation.navigate('PersonalScreen', register);
     }
   };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView style={styles.container}>
@@ -103,15 +106,27 @@ const RegisterScreen = ({navigation}) => {
               style={{
                 position: 'absolute',
                 alignSelf: 'flex-end',
-                backgroundColor: 'white',
                 width: 24,
                 height: 24,
                 borderRadius: 12,
-                borderWidth: 1,
-                borderColor: 'black',
-                padding: 4,
+                overflow: 'hidden',
               }}>
-              <EditIcon />
+              <TouchableNativeFeedback
+                onPress={() => {}}
+                background={TouchableNativeFeedback.Ripple('blue', false)}>
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    width: 24,
+                    height: 24,
+                    borderRadius: 12,
+                    borderWidth: 1,
+                    borderColor: 'black',
+                    padding: 4,
+                  }}>
+                  <EditIcon />
+                </View>
+              </TouchableNativeFeedback>
             </View>
           </View>
 
@@ -355,7 +370,7 @@ const RegisterScreen = ({navigation}) => {
             ]}>
             <LockIcon color={register.error.password ? 'red' : 'darkblue'} />
             <TextInput
-              secureTextEntry={true}
+              secureTextEntry={register.passwordVisibility}
               editable
               keyboardType="password"
               placeholder="Password"
@@ -369,6 +384,36 @@ const RegisterScreen = ({navigation}) => {
                 });
               }}
             />
+            <View
+              style={{
+                borderRadius: 6,
+                overflow: 'hidden',
+              }}>
+              <TouchableNativeFeedback
+                onPress={() => {
+                  dispatch({
+                    type: REGISTER_ACTIONS.UPDATE_PASSWORD_VISIBILITY,
+                    payload: {
+                      passwordVisibility: register.passwordVisibility
+                        ? false
+                        : true,
+                    },
+                  });
+                }}
+                background={TouchableNativeFeedback.Ripple('gray', false)}>
+                <View style={{padding: 2}}>
+                  {register.passwordVisibility ? (
+                    <VisibilityOffIcon
+                      color={register.error.phoneNumber ? 'red' : 'darkblue'}
+                    />
+                  ) : (
+                    <VisibilityIcon
+                      color={register.error.phoneNumber ? 'red' : 'darkblue'}
+                    />
+                  )}
+                </View>
+              </TouchableNativeFeedback>
+            </View>
           </View>
           <View
             style={{
@@ -402,7 +447,7 @@ const RegisterScreen = ({navigation}) => {
             />
             <TextInput
               editable
-              secureTextEntry={true}
+              secureTextEntry={register.confirmPasswordVisibility}
               placeholder="Password"
               style={styles.inputField}
               onChangeText={text => {
@@ -414,6 +459,35 @@ const RegisterScreen = ({navigation}) => {
                 });
               }}
             />
+            <View
+              style={{
+                borderRadius: 6,
+                overflow: 'hidden',
+              }}>
+              <TouchableNativeFeedback
+                onPress={() => {
+                  dispatch({
+                    type: REGISTER_ACTIONS.UPDATE_CONFIRM_PASSWORD_VISIBILITY,
+                    payload: {
+                      confirmPasswordVisibility:
+                        register.confirmPasswordVisibility ? false : true,
+                    },
+                  });
+                }}
+                background={TouchableNativeFeedback.Ripple('gray', false)}>
+                <View style={{padding: 2}}>
+                  {register.confirmPasswordVisibility ? (
+                    <VisibilityOffIcon
+                      color={register.error.phoneNumber ? 'red' : 'darkblue'}
+                    />
+                  ) : (
+                    <VisibilityIcon
+                      color={register.error.phoneNumber ? 'red' : 'darkblue'}
+                    />
+                  )}
+                </View>
+              </TouchableNativeFeedback>
+            </View>
           </View>
           <View
             style={{

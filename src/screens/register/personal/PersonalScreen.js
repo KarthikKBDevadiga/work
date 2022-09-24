@@ -11,8 +11,11 @@ import {
 import {Dropdown} from 'react-native-element-dropdown';
 
 import {RadioGroup} from 'react-native-radio-buttons-group';
+import designationValidator from '../../../validator/designationValidator';
+import domainValidator from '../../../validator/domainValidator';
 import experienceValidator from '../../../validator/experienceValidator';
 import genericValidator from '../../../validator/generalValidator';
+import gradeValidator from '../../../validator/gradeValidator';
 import nameValidator from '../../../validator/nameValidator';
 import yearValidator from '../../../validator/yearValidator';
 import {personalReducer, PERSONAL_ACTIONS} from './PersonalRedux';
@@ -41,14 +44,14 @@ const PersonalScreen = ({route, navigation}) => {
     const educationError = genericValidator(register.education.education);
     const yearOfPassingError = yearValidator(register.education.yearOfPassing);
     const universityError = nameValidator(register.education.university);
-    const gradeError = genericValidator(register.education.grade);
+    const gradeError = gradeValidator(register.education.grade);
     const experienceError = experienceValidator(
       register.professional.experience,
     );
-    const designationError = genericValidator(
+    const designationError = designationValidator(
       register.professional.designation,
     );
-    const domainError = genericValidator(register.professional.domain);
+    const domainError = domainValidator(register.professional.domain);
 
     const error = {
       education: educationError ? educationError : null,
@@ -76,7 +79,6 @@ const PersonalScreen = ({route, navigation}) => {
           error,
         },
       });
-      navigation.navigate('AddressScreen', register);
     }
   };
 
@@ -277,7 +279,7 @@ const PersonalScreen = ({route, navigation}) => {
             <Text
               style={[
                 styles.inputHeading,
-                register.error.yearOfPassing && {color: 'red'},
+                register.error.experience && {color: 'red'},
               ]}>
               Experience *
             </Text>
